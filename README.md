@@ -1,4 +1,4 @@
-# 🎵 Audio Source Separation and Enhancement Tool
+![image](https://github.com/user-attachments/assets/4f03ebac-b647-4c7a-97cc-c90251f00247)# 🎵 Audio Source Separation Tool
 
 A powerful web application for separating and enhancing audio components from music tracks, with additional features for speaker separation and audio enhancement.
 
@@ -62,6 +62,8 @@ pip install -r requirements.txt
 4. Set up environment variables:
 ```bash
 # Create .env file with necessary configurations
+configuration:
+HUGGINGFACE_TOKEN=YOUR TOKEN HERE
 touch .env
 # Add required environment variables
 ```
@@ -144,10 +146,6 @@ http://localhost:5000
 - Processing time depends on file size and complexity
 - Speaker separation works best with clear vocal tracks
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -156,8 +154,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - [Demucs](https://github.com/facebookresearch/demucs) for inspiration
 - [Pyannote.audio](https://github.com/pyannote/pyannote-audio) for speaker diarization
-- All contributors and testers
+- All contributors
 
-## 📞 Support
-
-For issues and feature requests, please use the GitHub Issues tracker. 
