@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/4f03ebac-b647-4c7a-97cc-c90251f00247)# 🎵 Audio Source Separation Tool
+# 🎵 Audio Source Separation Tool
 
 A powerful web application for separating and enhancing audio components from music tracks, with additional features for speaker separation and audio enhancement.
 
