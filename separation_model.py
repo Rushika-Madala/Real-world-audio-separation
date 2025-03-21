@@ -7,7 +7,7 @@ from models.model_architecture import DemucsModel
 
 SAMPLE_RATE = 44100
 MODEL_PATH = "models/audio_separation_model_2.pth"
-UPLOAD_FOLDER = r"C:\Users\Mora siri\Major_demucs\static\uploads"
+UPLOAD_FOLDER = r"/path/to/uploads/"
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
