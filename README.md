@@ -89,6 +89,7 @@ Major_demucs/
 │   ├── speaker_separation.py  # Speaker diarization module
 │   ├── separation_model.py    # Audio separation model
 │   ├── enhancement.py         # Audio enhancement module
+│   ├── enhancement.ipnyb         # Audio enhancement module
 │   ├── process.py            # Audio processing utilities
 │   ├── audio_processing.py   # Additional audio tools
 │   └── requirements.txt      # Python dependencies
@@ -99,7 +100,9 @@ Major_demucs/
 ├── Templates
 │   └── templates/            # HTML templates
 │       ├── index.html       # Upload page
+│       ├── index1.html       # Upload  page
 │       └── download.html    # Results page
+│       └── download1.html    # Final Results page
 │
 ├── Static Files
 │   └── static/
@@ -121,6 +124,7 @@ Major_demucs/
 │   ├── dataset_3/         # Additional dataset
 │   ├── model_save.pth     # Saved model weights
 │   └── train_model.ipynb  # Training notebook
+│   └── evaluation.ipynb  # Evaluation notebook
 │
 ├── Configuration
 │   └── .env              # Environment variables
