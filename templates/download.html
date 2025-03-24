@@ -1,1 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Download Separated Audio 🎶</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #4c6cb7, #87a4d2);
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            text-align: center;
+        }
 
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            gap: 20px;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .download-container, .speaker-separation-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .download-container a {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.2s;
+            text-align: center;
+        }
+
+        .download-container a:hover {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-container a:active {
+            transform: translateY(2px);
+        }
+
+        .download-container a::before {
+            content: "⬇️ ";
+        }
+
+        .section-title {
+            font-size: 1.5em;
+            margin: 30px 0 15px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .speaker-separation-container {
+            margin-bottom: 20px;
+        }
+
+        .speaker-separation-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        .speaker-separation-btn:hover {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-all-btn {
+            background: linear-gradient(135deg, #9c27b0, #673ab7);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.4em;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.2s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .download-all-btn:hover {
+            background: linear-gradient(135deg, #673ab7, #9c27b0);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-all-btn::before {
+            content: "📦 ";
+        }
+
+        /* Add responsiveness */
+        @media (max-width: 850px) {
+            .main-container {
+                max-width: 95%;
+            }
+            h2 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 1.8em;
+            }
+        }
+
+        .audio-player-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .audio-player {
+            width: 100%;
+            margin: 8px 0;
+            height: 32px;
+        }
+
+        h4 {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        /* Spinner styles */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .speaker-separation-btn.loading {
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .speaker-separation-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .speaker-separation-btn.loading span {
+            display: inline-block;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h2>🎺 🎙️ 🏃 Download Your Separated Audio Files 🎸 🎧 🎵</h2>
+        
+        {% if show_speaker_separation %}
+        <div class="speaker-separation-container">
+            <h3 class="section-title">🎙️ Want to Separate Speakers from Vocals?</h3>
+            <button onclick="separateSpeakers()" class="speaker-separation-btn" id="separateButton">
+                <div class="spinner"></div>
+                <span>Separate Speakers from Vocals</span>
+            </button>
+        </div>
+        {% endif %}
+
+        <div id="speakers-container" style="display: none;" class="download-container">
+            <h3 class="section-title">👥 Separated Speakers</h3>
+            <!-- Speakers will be dynamically added here -->
+        </div>
+
+        <div class="download-container">
+            <h3 class="section-title">🎼 Main Components</h3>
+            {% for component, filename in [
+                ('Bass', bass_file),
+                ('Vocals', vocal_file),
+                ('Drums', drum_file),
+                ('Music', music_file)
+            ] %}
+            <div class="audio-player-container">
+                <h4>{{ component }}</h4>
+                <audio id="audio-{{ component.lower() }}" class="audio-player" controls>
+                    <source src="{{ url_for('download_file', filename=filename) }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            {% endfor %}
+        </div>
+
+        <form id="download-all-form" action="{{ url_for('download_all') }}" method="post" style="display: none;">
+            <button type="submit" class="download-all-btn">Download All Files</button>
+        </form>
+    </div>
+
+    <script>
+        // Add retry mechanism
+        async function fetchWithRetry(url, options, maxRetries = 3) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response;
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(resolve => setTimeout(resolve, 1000 * (i + 1)));
+                }
+            }
+        }
+
+        function separateSpeakers() {
+            const separationBtn = document.getElementById('separateButton');
+            
+            separationBtn.classList.add('loading');
+            separationBtn.querySelector('span').textContent = 'Processing...';
+
+            fetchWithRetry('/separate_speakers', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update main component audio players with normalized files
+                    const components = ['bass', 'vocal', 'drum', 'music'];
+                    components.forEach(component => {
+                        const audio = document.getElementById(`audio-${component}`);
+                        if (audio && data.speaker_files[component]) {
+                            audio.src = `/download/${data.speaker_files[component]}`;
+                            audio.load();
+                        }
+                    });
+
+                    // Create speaker audio players
+                    const speakersContainer = document.getElementById('speakers-container');
+                    speakersContainer.innerHTML = '<h3 class="section-title">👥 Separated Speakers</h3>';
+
+                    // Add speaker audio players
+                    Object.entries(data.speaker_files)
+                        .filter(([key]) => key.startsWith('speaker_'))
+                        .forEach(([key, filename], index) => {
+                            const playerHtml = `
+                                <div class="audio-player-container">
+                                    <h4>Speaker ${index + 1}</h4>
+                                    <audio id="audio-${key}" class="audio-player" controls>
+                                        <source data-src="/download/${filename}" type="audio/wav">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            `;
+                            speakersContainer.innerHTML += playerHtml;
+                        });
+
+                    // Update audio sources after DOM is updated
+                    setTimeout(() => {
+                        const audioElements = speakersContainer.querySelectorAll('audio');
+                        audioElements.forEach(audio => {
+                            const source = audio.querySelector('source');
+                            if (source && source.dataset.src) {
+                                source.src = source.dataset.src;
+                                audio.load();
+                            }
+                        });
+                    }, 0);
+
+                    // Show the speakers container and download all button
+                    speakersContainer.style.display = 'block';
+                    document.getElementById('download-all-form').style.display = 'block';
+
+                    // Hide the separation button container
+                    document.querySelector('.speaker-separation-container').style.display = 'none';
+                } else {
+                    throw new Error(data.error || 'Unknown error occurred');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error during speaker separation. Please try again.');
+            })
+            .finally(() => {
+                separationBtn.classList.remove('loading');
+                separationBtn.querySelector('span').textContent = 'Separate Speakers from Vocals';
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Separated Audio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #5F2C82, #49A09D);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #fff;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-container {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px 15px;
+            border-radius: 12px;
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            width: 280px;
+            text-align: left;
+        }
+
+        .download-container a {
+            display: block;
+            margin: 12px 0;
+            padding: 12px;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.2s;
+        }
+
+        .download-container a:hover {
+            background: #0056b3;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-container a:active {
+            transform: translateY(2px);
+        }
+
+        /* Add responsiveness */
+        @media (max-width: 600px) {
+            .download-container {
+                width: 75%;
+                padding: 18px 12px;
+            }
+
+            h2 {
+                font-size: 2.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h2>Download Your Separated Audio Files</h2>
+        <div class="download-container">
+            <a href="{{ url_for('download_file', filename='denoised_bass.wav') }}">Download Bass</a>
+            <a href="{{ url_for('download_file', filename='denoised_vocal.wav') }}">Download Vocal</a>
+            <a href="{{ url_for('download_file', filename='denoised_drum.wav') }}">Download Drum</a>
+            <a href="{{ url_for('download_file', filename='denoised_music.wav') }}">Download Music</a>
+        </div>
+    </div>
+</body>
+</html>

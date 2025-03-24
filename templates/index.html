@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎵 Audio Source Separator 🎶</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #4c6cb7, #87a4d2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .upload-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+        }
+
+        .upload-container label {
+            font-size: 18px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .drag-drop-zone {
+            border: 3px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .drag-drop-zone.dragover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #fff;
+        }
+
+        .drag-drop-text {
+            font-size: 16px;
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        input[type="file"] {
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #007bff;
+            width: 100%;
+            background-color: #fff;
+            color: #333;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 20px;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            transform: scale(1.05);
+        }
+
+        .steps-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .steps {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .steps p {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .graphic {
+            margin-top: 30px;
+        }
+
+        .graphic img {
+            width: 300px;
+            border-radius: 15px;
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .error-message {
+            color: #ff6f00;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        /* Spinner styles */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        button.loading {
+            background: linear-gradient(135deg, #ff8f00, #ff6f00);
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        button.loading .spinner {
+            display: inline-block;
+        }
+
+        button.loading span {
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .upload-container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            .title {
+                font-size: 32px;
+            }
+
+            .steps-title {
+                font-size: 28px;
+            }
+
+            .graphic img {
+                width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="title">🎧 Audio Source Separator 🎼</div>
+    <div class="graphic">
+        <img src="https://imgs.search.brave.com/AsM-gJEWrlXrO_LCnYlb75QjSTfGnlNet2HshWWpWxg/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMuc3RpY2twbmcu/Y29tL2ltYWdlcy82/MTBlODdmNmY4YmIx/OTAwMDQ3NjlkZDIu/cG5n" alt="Music related stock image">
+    </div>
+    <div class="upload-container">
+        <form action="/" method="post" enctype="multipart/form-data" onsubmit="return validateFile()">
+            <label for="fileInput">🎶 Choose an audio file or drag & drop here 🎵</label>
+            <div id="drag-drop-zone" class="drag-drop-zone">
+                <p class="drag-drop-text">Drag & drop your audio file here</p>
+                <p class="drag-drop-text">- or -</p>
+                <input type="file" name="file" id="fileInput" accept=".mp3,.wav,.ogg,.m4a,.aac,.wma,.flac,.alac,.aiff,.opus" required>
+            </div>
+            <p class="file-name" id="fileName">No file chosen</p>
+            <p class="error-message" id="errorMessage"></p>
+            <button type="submit" id="uploadButton">
+                <div class="spinner"></div>
+                <span>🚀 Upload & Separate</span>
+            </button>
+        </form>
+    </div>
+
+    <!-- 3 Easy Steps Section -->
+    <div class="steps-title">3️⃣ Easy Steps ✨</div>
+    <div class="steps">
+        <p>🎼 <strong>Step 1:</strong> Choose or drag your audio file</p>
+        <p>🎛️ <strong>Step 2:</strong> Click upload and separate</p>
+        <p>📥 <strong>Step 3:</strong> Your audio files are ready to download!</p>
+    </div>
+
+    <script>
+        const dragZone = document.getElementById('drag-drop-zone');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dragZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        // Highlight drop zone when dragging over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dragZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dragZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dragZone.classList.add('dragover');
+        }
+
+        function unhighlight(e) {
+            dragZone.classList.remove('dragover');
+        }
+
+        // Handle dropped files
+        dragZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            fileInput.files = files;
+            updateFileName(files[0]);
+        }
+
+        function validateFile() {
+            var fileInput = document.getElementById("fileInput");
+            var fileName = fileInput.value;
+            var validExtensions = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.wma', '.flac', '.alac', '.aiff', '.opus'];
+            var isValid = validExtensions.some(ext => fileName.toLowerCase().endsWith(ext));
+
+            if (!isValid) {
+                errorMessage.textContent = "❌ Invalid file type! Please upload a supported audio file.";
+                fileInput.value = "";
+                return false;
+            }
+
+            // Show loading state
+            const uploadButton = document.getElementById('uploadButton');
+            uploadButton.classList.add('loading');
+            uploadButton.querySelector('span').textContent = 'Processing...';
+            return true;
+        }
+
+        function updateFileName(file) {
+            if (file) {
+                fileName.textContent = "🎵 Selected file: " + file.name;
+                errorMessage.textContent = "";
+            } else {
+                fileName.textContent = "No file chosen";
+            }
+        }
+
+        fileInput.addEventListener("change", function() {
+            updateFileName(this.files[0]);
+        });
+    </script>
+</body>
+</html>
