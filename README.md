@@ -83,20 +83,50 @@ http://localhost:5000
 ## 🛠️ Project Structure
 
 ```
-.
-├── app.py                 # Main Flask application
-├── separation_model.py    # Audio separation model
-├── speaker_separation.py  # Speaker diarization
-├── enhancement.py         # Audio enhancement
-├── process.py            # Audio processing utilities
-├── audio_processing.py   # Additional audio tools
-├── requirements.txt      # Python dependencies
-├── templates/            # HTML templates
-│   ├── index.html       # Upload page
-│   └── download.html    # Results page
-├── static/              # Static assets
-│   └── uploads/        # Temporary file storage
-└── models/             # Pre-trained models
+Major_demucs/
+├── Core Application Files
+│   ├── app.py                 # Main Flask application
+│   ├── speaker_separation.py  # Speaker diarization module
+│   ├── separation_model.py    # Audio separation model
+│   ├── enhancement.py         # Audio enhancement module
+│   ├── process.py            # Audio processing utilities
+│   ├── audio_processing.py   # Additional audio tools
+│   └── requirements.txt      # Python dependencies
+│
+├── Testing
+│   └── test_speaker_separation.py  # Speaker separation test
+│
+├── Templates
+│   └── templates/            # HTML templates
+│       ├── index.html       # Upload page
+│       └── download.html    # Results page
+│
+├── Static Files
+│   └── static/
+│       └── uploads/         # Processed files
+│           ├── speakers/    # Speaker-separated audio
+│           │   ├── speaker_speaker00.wav
+│           │   ├── speaker_speaker00_normalized.wav
+│           │   ├── speaker_speaker01.wav
+│           │   └── speaker_speaker01_normalized.wav
+│           ├── denoised_merged_*.wav  # Enhanced components
+│           ├── merged_*.wav           # Merged components
+│           ├── temp_chunk_*.wav       # Temporary chunks
+│           ├── bp08.mp3               # Original input file
+│           └── all_separated_files.zip # All processed files
+│
+├── Models and Data
+│   ├── models/             # Pre-trained models
+│   ├── dataset/           # Training dataset
+│   ├── dataset_3/         # Additional dataset
+│   ├── model_save.pth     # Saved model weights
+│   └── train_model.ipynb  # Training notebook
+│
+├── Configuration
+│   └── .env              # Environment variables
+│
+└── Documentation
+    └── README.md         # Project documentation
 ```
 
 ## 🔧 Technical Details
