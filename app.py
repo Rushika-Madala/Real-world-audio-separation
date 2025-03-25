@@ -68,8 +68,7 @@ def cleanup_old_files():
 def upload_file():
     if request.method == "POST":
         # Clean up old files before processing new upload
-        cleanup_old_files()
-        
+        cleanup_old_files()        
         file = request.files["file"]
         if file:
             print("\n=== Starting Audio Processing Pipeline ===")
@@ -77,11 +76,9 @@ def upload_file():
             filepath = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
             file.save(filepath)
             print("   ✓ File uploaded successfully")
-
             print("\n2. Splitting audio into chunks...")
             chunk_files, sr = split_audio(filepath)
             print(f"   ✓ Split into {len(chunk_files)} chunks")
-
             print("\n3. Processing each chunk for separation...")
             separated_files = {"bass": [], "vocal": [], "drum": [], "music": []}
             for i, chunk in enumerate(chunk_files, 1):
@@ -93,18 +90,15 @@ def upload_file():
                     separated_files["drum"].append(outputs["drum"])
                     separated_files["music"].append(outputs["music"])
             print("   ✓ All chunks processed successfully")
-
             print("\n4. Merging separated components...")
             merged_files = {}
             for component in ["bass", "vocal", "drum", "music"]:
                 print(f"   Merging {component}...")
                 merged_files[component] = merge_audio(separated_files[component], sr, f"merged_{component}.wav")
             print("   ✓ All components merged successfully")
-
             print("\n5. Applying enhancement to denoise files...")
             enhanced_files = enhance_all_components(merged_files, UPLOAD_FOLDER)
             print("   ✓ Enhancement completed successfully")
-
             print("\n=== Audio Processing Completed Successfully ===")
             return render_template(
                 "download.html", 
@@ -114,7 +108,6 @@ def upload_file():
                 music_file="denoised_merged_music.wav",
                 show_speaker_separation=True
             )
-
     return render_template("index.html")
 
 @app.route("/separate_speakers", methods=["POST"])
